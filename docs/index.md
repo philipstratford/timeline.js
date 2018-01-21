@@ -1,2 +1,2 @@
 # Index
-Do docs need an index?
+Documentation is coming soon!
