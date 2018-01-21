@@ -16,7 +16,7 @@
             labelPosition: "left",
             nodeBorderWidth: 5,
             nodeHeight: 20,
-            nodeStyle: "node",
+            nodeStyle: "",
             nodeWidth: 20,            
             nodeLabelMargin: 10,
             nodeLabelStyle: "",
