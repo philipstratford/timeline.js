@@ -222,18 +222,6 @@
             "border-bottom-right-radius": 0 //Just in case someone specifies this in CSS!
         }).addClass("main-timeline " + settings.timelineStyle).addClass("event-marker " + settings.eventMarkerStyle);
 
-        //if (settings.eventOrder == "desc") {
-        //    $eventLine.css({
-        //        "border-bottom-color": settings.timelineColor,
-        //        "border-bottom-style": settings.timelineStyle
-        //    });
-        //} else if (settings.eventOrder == "asc") {
-        //    $eventLine.css({
-        //        "border-top-color": settings.timelineColor,
-        //        "border-top-style": settings.timelineStyle
-        //    });
-        //};
-
         $eventLabel.css({
             "padding-left": settings.eventLabelMargin,
             "padding-right": settings.eventLabelMargin,
@@ -548,16 +536,6 @@
         function round(value, decimals) {
             return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
         }
-
-        //FOR TESTING ONLY
-        //$(".node-and-label").css({"background-color": "yellow", "opacity":"0.8"});
-        //$(".node").css("background-color", "red");
-        //$(".node-label").css("background-color", "LightBlue");
-        //$(".event-container").css("background-color", "LightGray");
-        //$(".event").css("background-color", "LightGreen");
-        //$(".event-marker").css("background-color", "orange");
-        //$(".event-label").css("background-color", "LightPink");
-        //$(".main-timeline").not(".event-marker").css("background-color","violet");
 
         return $this;        
     };
