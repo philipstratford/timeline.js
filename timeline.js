@@ -28,8 +28,7 @@
             resetZoomButton: true,
             scale: 1,
             timelineStyle: "",
-            timelineWidth: 1,            
-            unit: "px", //TODO: Concatenating this with CSS values isn't working
+            timelineWidth: 1,
             zoomButtons: true,            
             zoomButtonStyle: "",
             zoomInButtonText: "+",            
@@ -41,6 +40,7 @@
         var $this = this;
         $this.css({ "position": "relative" });
         var zoomLevel = 0;
+        var unit = "px";
 
         var eventCount = settings.data.length;
         var eventLabelCursor = "pointer";
@@ -179,15 +179,15 @@
         if (settings.labelPosition == "left") {
             $line.css({
                 //Set the left margin of the timeline to be the full width of the parent less half the width of the nodes less the width of the node border less the border width of the timeline itself
-                "margin-left": "calc(100% - " + String(settings.nodeWidth / 2) + settings.unit + " - " + String(settings.timelineWidth) + settings.unit + " - " + String(settings.nodeBorderWidth) + settings.unit + ")",
+                "margin-left": "calc(100% - " + String(settings.nodeWidth / 2) + unit + " - " + String(settings.timelineWidth) + unit + " - " + String(settings.nodeBorderWidth) + unit + ")",
                 "border-left": "none", //Removing one of the borders, in case both left and right have been specified in CSS
-                "border-right-width": settings.timelineWidth + settings.unit, //This needs to be specified in settings as it's used in calculations. Values specified in CSS will be ignored.
+                "border-right-width": settings.timelineWidth + unit, //This needs to be specified in settings as it's used in calculations. Values specified in CSS will be ignored.
             });
         } else if (settings.labelPosition == "right") {
             $line.css({
                 "margin-left": (settings.nodeWidth / 2) + settings.nodeBorderWidth,
                 "border-right": "none", //Removing one of the borders, in case both left and right have been specified in CSS
-                "border-left-width": settings.timelineWidth + settings.unit, //This needs to be specified in settings as it's used in calculations. Values specified in CSS will be ignored.
+                "border-left-width": settings.timelineWidth + unit, //This needs to be specified in settings as it's used in calculations. Values specified in CSS will be ignored.
             });
         }
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
