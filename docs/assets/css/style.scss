@@ -8,7 +8,7 @@ $header-bg-color-secondary: #333 !default;
 
 @import "{{ site.theme }}";
 
-.page-header {
+.timeline-page-header {
     background-image: none;
-    height: 100px;
+    padding: 20px;
 }
