@@ -13,4 +13,20 @@ $section-headings-color: #e64a19;
     background-color: $header-bg-color;
     padding: 20px;
     text-align: center;
+
+
+    @include large {
+        max-width: 64rem;
+        padding: 2rem 6rem;
+        margin: 0 auto;
+    }
+
+    @include medium {
+        padding: 2rem 4rem;
+    }
+
+    @include small {
+        padding: 2rem 1rem;
+    }
+
 }
