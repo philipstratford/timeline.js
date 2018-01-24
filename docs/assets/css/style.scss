@@ -12,8 +12,10 @@ $section-headings-color: #e64a19;
     background-image: none;
     background-color: $header-bg-color;
     padding: 20px;
-    text-align: center;
+}
 
+.timeline-page-header-content {
+    text-align: left;
 
     @include large {
         max-width: 64rem;
