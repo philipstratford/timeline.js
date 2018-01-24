@@ -2,10 +2,9 @@
 ---
 
 // Headers
-$header-heading-color: #fff !default;
-$header-bg-color: #333 !default;
-$header-bg-color-secondary: #333 !default;
-$section-headings-color: #e64a19 !default;
+$header-heading-color: #fff;
+$header-bg-color: #333;
+$section-headings-color: #e64a19;
 
 @import "{{ site.theme }}";
 
