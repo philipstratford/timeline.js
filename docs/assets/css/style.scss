@@ -10,5 +10,7 @@ $header-bg-color-secondary: #333 !default;
 
 .timeline-page-header {
     background-image: none;
+    background-color: $header-bg-color;
     padding: 20px;
+    text-align: center;
 }
