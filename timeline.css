@@ -1,38 +1,48 @@
-﻿.timeline-node {
+.timeline-container * {
+    box-sizing: unset;
+}
+
+.timeline-node {
     width: 5px;
     height: 5px;
-    border: 1px solid red;
+    border: 1px solid #000;
 }
 
 .node {
-    border-color: green;
+    border-color: #000;
     border-style: solid;
     border-radius: 50%;
 }
 
 .node-label {
-    color: red;
+    color: #000;
+}
+
+a.node-label {
+    text-decoration: none;
 }
 
 .main-timeline {
     /*This is the style of the main, vertical timeline itself*/
-    border-right: dashed blue; /*Will be applied if the labelPosition option is set to Left */
-    border-left: solid green; /*Will be applied if the labelPosition option is set to Right */
+    border-right: solid #000; /*Will be applied if the labelPosition option is set to Left */
+    border-left: solid #000; /*Will be applied if the labelPosition option is set to Right */
 }
 
 .event-marker {
-    border-bottom-color: black;
+    border-bottom-color: #000;
     border-bottom-style: solid;
     width: 10px; /*At present this is being overridden by the eventLabelWidthDefault option. Needs fixing*/
 }
 
 .event-label {
     font-size: 20px;
-    color: green;
+    color: #000;
 }
 
 .zoom-button {
     width: 25px;
     height: 25px;
     display: block;
+    padding: 0;
+    font-size: 12px;
 }
