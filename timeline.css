@@ -1,4 +1,8 @@
-﻿.timeline-node {
+.timeline-container * {
+    box-sizing: unset;
+}
+
+.timeline-node {
     width: 5px;
     height: 5px;
     border: 1px solid red;
