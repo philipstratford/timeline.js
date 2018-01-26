@@ -1,5 +1,5 @@
 .timeline-container * {
-    box-sizing: unset;
+    box-sizing: content-box;
 }
 
 .timeline-node {
