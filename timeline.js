@@ -404,13 +404,12 @@
         //Zoom
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         if (settings.zoomButtons) {
-            var $zoomButtons = $("<div></div>").css("top", timelineTargetContainerPadding.top);
-            $zoomButtons.css({ "position": "fixed", "z-index": 2, "top": $this.offset().top + timelineTargetContainerPadding.top });
+            var $zoomButtons = $("<div></div>").css({ "position": "absolute", "z-index": 2, "top": 0 });
 
             if (settings.labelPosition == "left") {
-                $zoomButtons.css("left", $this.offset().left + timelineTargetContainerPadding.left);
+                $zoomButtons.css("left", 0);
             } else if (settings.labelPosition == "right") {
-                $zoomButtons.css("left", $this.offset().left + $this.width() - timelineTargetContainerPadding.right);
+                $zoomButtons.css("right", 0);
             };
 
             var $zoomOutButton = $("<button>" + settings.zoomOutButtonText + "</button>");
