@@ -15,7 +15,7 @@
 }
 
 .node-label {
-    color: #000;
+    color: inherit;
 }
 
 a.node-label {
@@ -36,7 +36,7 @@ a.node-label {
 
 .event-label {
     font-size: 20px;
-    color: #000;
+    color: inherit;
 }
 
 .zoom-button {
