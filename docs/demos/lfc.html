@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+<head>    
+    <link href="assets/css/Timeline.css" rel="stylesheet" />
+    <link href="assets/css/lfc.css" rel="stylesheet" />
+    <script src="http://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="data/lfc.js"></script>
+    <script src="js/timeline.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <title>LFC Early History</title>
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>Early History of Liverpool Football Club</h1>       
+    </div>
+
+    <div class="row">
+        <div class="content-container">
+            <div id="timelineDemo"></div>
+        </div>
+        <div id="eventDetail" class="content-container">Select an event to read details.</div>
+    </div>
+
+    <div class="page-footer">
+        <p>Text from <a href="http://www.liverpoolfc.com/history/timeline">offcial LFC website</a> | Design and background image &copy; Philip Stratford 2018 | This is a demo of <a href="http://stratifactory.co.uk/timeline.js">Timeline.js</a></p>
+    </div>
+     
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+        
+        $("#timelineDemo").timeline({
+            data: timelineData,
+            onEventLabelClick: function (event) {
+                $("#eventDetail").html("<h2>" + event.eventLabel + "</h2>" + event.eventDetail);
+            },            
+            labelPosition: "right",
+            eventOrder: "asc",
+            scale: 0.5,
+            eventLabelStyle: "event-label-lfc",
+            eventMarkerStyle: "event-marker-lfc",
+            timelineStyle: "main-timeline-lfc",
+            nodeLabelStyle: "node-label-lfc",
+	    nodeLabelFontSize: 30,
+            nodeStyle: "node-lfc",
+            nodeHeight: 30,
+            nodeWidth: 30
+        });
+
+    })
+
+</script>

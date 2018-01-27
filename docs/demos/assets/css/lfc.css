@@ -1,0 +1,98 @@
+@import "https://fonts.googleapis.com/css?family=Roboto";
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    background: #000 url("../img/anfield.jpg") no-repeat top;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    margin-top: 0;
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;    
+}
+
+.page-header {
+    background-color: #cc1010;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    border-bottom: 2px solid #8e0b0b;
+    padding: 30px 0;
+}
+
+.page-header h1 {
+   font-size: 3em;
+   margin: 0;
+}
+
+.page-footer {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8em;
+    color: #fff
+}
+
+.page-footer a {    
+    color: #ffd700;
+}
+
+.page-footer a:hover {
+    color: #ccac00;
+}
+
+.content-container {
+    background-color: #fff;
+    padding: 20px;
+    color: #333;
+    -moz-box-shadow: 0 0 5px 1px #333;
+    -webkit-box-shadow: 0 0 5px 1px #333;
+    box-shadow: 0 0 5px 1px #333;
+    margin: 20px 10px;
+    flex-grow: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+#eventDetail {
+    width: 600px;
+}
+
+/*Timeline Styling*/
+#timelineDemo {
+    min-width: 400px;
+}
+
+.node-label-lfc {
+    color: #cc1010;
+    font-size: 2em;
+}
+
+.node-lfc {
+    border-color: transparent;
+    background-image: url("../img/lfc-logo.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.main-timeline-lfc {
+    border-left-color: #cc1010;
+}
+
+.event-marker-lfc {
+    border-bottom-color: #cc1010;
+}
