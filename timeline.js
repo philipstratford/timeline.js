@@ -73,7 +73,7 @@
             settings.onZoomOut = "";
         };
 
-        //Sort the array of events by descedning date order
+        //Sort the array of events by chronologically
         settings.data = settings.data.sort(function (a, b) {
             var sortOrder;
             if (settings.eventOrder == "desc") {
@@ -388,7 +388,8 @@
         //Apply further CSS to elements
         $(".main-timeline").css({ "transition": "height .5s", "transition-timing-function": "ease-out" });
         $(".event-label").css({ "transition": "top .5s, opacity .1s", "transition-timing-function": "ease-out" });
-        $(".event-label").eq(0).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function (e) { //Call the function to dim overlapping labels after CSS transitions on event labels have completed
+        $(".event-label:first").addClass("active");
+        $(".event-label").eq(0).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function (e) { //Create and event handler for css transitions completing and call function to fade overlapping event labels
             fadeOverlappingLabels();            
         });        
 
