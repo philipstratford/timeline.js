@@ -39,6 +39,10 @@ a.node-label {
     color: inherit;
 }
 
+.event-label.active {
+    text-decoration: underline;
+}
+
 .zoom-button {
     width: 25px;
     height: 25px;
