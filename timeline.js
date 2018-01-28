@@ -27,6 +27,7 @@
             onZoomReset: function () { },
             resetZoomButton: true,
             scale: 1,
+            selectFirstEventOnLoad: true,
             timelineStyle: "",
             timelineWidth: 1,
             zoomButtons: true,            
@@ -387,11 +388,14 @@
 
         //Apply further CSS to elements
         $(".main-timeline").css({ "transition": "height .5s", "transition-timing-function": "ease-out" });
-        $(".event-label").css({ "transition": "top .5s, opacity .1s", "transition-timing-function": "ease-out" });
-        $(".event-label:first").addClass("active");
+        $(".event-label").css({ "transition": "top .5s, opacity .1s", "transition-timing-function": "ease-out" });        
         $(".event-label").eq(0).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function (e) { //Create and event handler for css transitions completing and call function to fade overlapping event labels
             fadeOverlappingLabels();            
-        });        
+        });
+        
+        if (settings.selectFirstEventOnLoad) {
+            $(".event-label:first").addClass("active");
+        }
 
         //Set low opacity for overlapping labels
         fadeOverlappingLabels();
