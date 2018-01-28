@@ -505,6 +505,8 @@
 
         //onEventLabelClick
         $(".event-label", $this).click(function () {
+            $(".event-label", $this).removeClass("active");
+            $(this).addClass("active");
             settings.onEventLabelClick.call(undefined, $(this).data("event"));
         })
 
