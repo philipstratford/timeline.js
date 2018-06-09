@@ -17,10 +17,10 @@
             nodeBorderWidth: 5,
             nodeHeight: 20,
             nodeStyle: "",
-            nodeWidth: 20,            
+            nodeWidth: 20,
             nodeLabelMargin: 10,
             nodeLabelStyle: "",
-            nodeLabelFontSize: 20,            
+            nodeLabelFontSize: 20,
             onEventLabelClick: function () { },
             onZoomIn: function () { },
             onZoomOut: function () { },
@@ -30,9 +30,9 @@
             selectFirstEventOnLoad: true,
             timelineStyle: "",
             timelineWidth: 1,
-            zoomButtons: true,            
+            zoomButtons: true,
             zoomButtonStyle: "",
-            zoomInButtonText: "+",            
+            zoomInButtonText: "+",
             zoomIncrement: 0.3,
             zoomOutButtonText: "-",
             zoomResetButtonText: "0"
@@ -56,7 +56,7 @@
         if (typeof settings.onEventLabelClick !== "function") {
             console.log("The value of onEventLabelClick variable is not a valid function.")
             settings.onEventLabelClick = "";
-            eventLabelCursor = "default";            
+            eventLabelCursor = "default";
         };
 
         if (typeof settings.onZoomIn !== "function") {
@@ -92,7 +92,7 @@
         };
 
         //Create an array of years containing all years between the earliest and latest events inclusively
-        var years = new Array();        
+        var years = new Array();
         if (settings.eventOrder == "desc") {
             var lastYear = moment(settings.data[0].eventDate, settings.dateFormat).year(); //Get the year from the latest event's Date
             var firstYear = moment(settings.data[eventCount - 1].eventDate, settings.dateFormat).year(); //Get the year from the earliest event's Date
@@ -116,8 +116,8 @@
             while (year < lastYear + 1);
         };
 
-        
-       
+
+
         //Set the text alignment of the labels depending on the position specified for the labels relative to the nodes
         var labelTextAlignment = "left";
         if (settings.labelPosition == "left") {
@@ -194,7 +194,7 @@
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,14 +259,14 @@
                 "border-right": "none",
                 "margin-left": (settings.nodeWidth / 2) + settings.nodeBorderWidth
             });
-            $eventLabel.css({                
-                "left":"100%"
+            $eventLabel.css({
+                "left": "100%"
             });
 
             $event.append($eventLine, $eventLabel);
         }
 
-        
+
         $eventContainer.append($event);
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -388,13 +388,15 @@
 
         //Apply further CSS to elements
         $(".main-timeline").css({ "transition": "height .5s", "transition-timing-function": "ease-out" });
-        $(".event-label").css({ "transition": "top .5s, opacity .1s", "transition-timing-function": "ease-out" });        
+        $(".event-label").css({ "transition": "top .5s, opacity .1s", "transition-timing-function": "ease-out" });
         $(".event-label").eq(0).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function (e) { //Create and event handler for css transitions completing and call function to fade overlapping event labels
-            fadeOverlappingLabels();            
+            fadeOverlappingLabels();
         });
-        
+
         if (settings.selectFirstEventOnLoad) {
-            $(".event-label:first").addClass("active");
+            $firstNode = $(".event-label:first");
+            $firstNode.addClass("active");
+            settings.onEventLabelClick.call(undefined, $firstNode.data("event"));
         }
 
         //Set low opacity for overlapping labels
@@ -430,7 +432,7 @@
                     resetZoom();
                     settings.onZoomReset.call();
                 });
-                $zoomButtons.append($resetZoomButton);                
+                $zoomButtons.append($resetZoomButton);
             };
 
             var $zoomInButton = $("<button>" + settings.zoomInButtonText + "</button>");
@@ -446,7 +448,7 @@
         };
 
         function zoom(zoomAmount) {
-            if (zoomAmount <0) {
+            if (zoomAmount < 0) {
                 zoomLevel--;
             } else {
                 zoomLevel++;
@@ -462,7 +464,7 @@
                     $thisSection.prev(".event-label").offset({ top: newEventLabelTop });
                 } else if (settings.labelPosition == "right") {
                     $thisSection.next(".event-label").offset({ top: newEventLabelTop });
-                };                    
+                };
                 return newHeight;
             });
         };
@@ -480,7 +482,7 @@
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Handle overlapping Event Labels
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-        function fadeOverlappingLabels() {            
+        function fadeOverlappingLabels() {
             var lastBottom = 0;
             var eventLabelFontSizeRaw = $(".event-label").eq(0).css("font-size"); //Get the font size of the first (and thus all) label
             var eventLabelFontSize = Math.floor(parseInt(eventLabelFontSizeRaw.replace('px', ''))); //Convert the font size to a number
@@ -525,7 +527,7 @@
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         //Zoom
-        $.fn.timeline.zoom = function(zoomAmount) {
+        $.fn.timeline.zoom = function (zoomAmount) {
             if (zoomAmount == undefined) zoomAmount = settings.zoomAmount; //Use the default zoom amount if one isn't specified
             zoom(zoomAmount);
         };
@@ -542,8 +544,8 @@
         function round(value, decimals) {
             return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
         }
-        
+
         $this.wrap("<div class='timeline-container'></div>");
-        return $this;        
+        return $this;
     };
 }(jQuery));

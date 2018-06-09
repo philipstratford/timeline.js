@@ -394,7 +394,9 @@
         });
 
         if (settings.selectFirstEventOnLoad) {
-            $(".event-label:first").addClass("active");
+            $firstNode = $(".event-label:first");
+            $firstNode.addClass("active");
+            settings.onEventLabelClick.call(undefined, $firstNode.data("event"));
         }
 
         //Set low opacity for overlapping labels
