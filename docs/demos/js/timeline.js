@@ -314,9 +314,9 @@
                 //Create a line which will fill the gap between the last event added and the next node which will be added in the next year iteration, unless this is the last year in the array
                 if (y < years.length - 1) {
                     $thisNodeLine = $line.clone();
-                    var remainingLineHeight = Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).subtract(1, "years"), "days")); //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
+                    var remainingLineHeight = (Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).subtract(1, "years"), "days"))) * settings.scale; //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
                     $thisNodeLine.data("originalHeight", remainingLineHeight); //Store the line's original height in its data to be used when zooming
-                    $thisNodeLine.height(remainingLineHeight * settings.scale); //Set the line's height to the number of days from the last event added to the start of the year
+                    $thisNodeLine.height(remainingLineHeight); //Set the line's height to the number of days from the last event added to the start of the year
                     $thisYear.append($thisNodeLine);
                 };
 
@@ -359,9 +359,9 @@
                 //Create a line which will fill the gap between the last event added and the next node which will be added in the next year iteration, unless this is the last year in the array
                 if (y < years.length - 1) {
                     $thisNodeLine = $line.clone();
-                    var remainingLineHeight = Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).add(1, "years"), "days")); //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
+                    var remainingLineHeight = (Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).add(1, "years"), "days"))) * settings.scale; //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
                     $thisNodeLine.data("originalHeight", remainingLineHeight); //Store the line's original height in its data to be used when zooming
-                    $thisNodeLine.height(remainingLineHeight * settings.scale); //Set the line's height to the number of days from the last event added to the start of the year
+                    $thisNodeLine.height(remainingLineHeight); //Set the line's height to the number of days from the last event added to the start of the year
                     $thisYear.append($thisNodeLine);
                 };
 
@@ -450,27 +450,29 @@
         function zoom(zoomAmount) {
             if (zoomAmount < 0) {
                 zoomLevel--;
-            } else {
+            } else if (zoomAmount > 0) {
                 zoomLevel++;
+            } else if (zoomAmount == 0) {
+                zoomLevel = 0;
             };
-            var zoomAmount = Math.abs(zoomAmount);
-            var zoomMultiplier = 1 / (1 - zoomAmount);
+
+            zoomAmount = Math.abs(zoomAmount);
+            var zoomMultiplier = (zoomAmount * zoomLevel) + 1
             $(".main-timeline", $this).height(function () {
                 var $thisSection = $(this)
-                var newHeight = $thisSection.data("originalHeight") * Math.pow(zoomMultiplier, zoomLevel);
-
+                var newHeight = $thisSection.data("originalHeight") * zoomMultiplier;
                 var newEventLabelTop = $thisSection.offset().top + newHeight - eventLabelTopOffset; //Move the event labels to the new bottom of the event line, then up by half the height of the label so it's centered against the marker
                 if (settings.labelPosition == "left") {
                     $thisSection.prev(".event-label").offset({ top: newEventLabelTop });
                 } else if (settings.labelPosition == "right") {
                     $thisSection.next(".event-label").offset({ top: newEventLabelTop });
-                };
+                };                
+                
                 return newHeight;
             });
         };
 
         function resetZoom() {
-            zoomLevel = 0;
             zoom(0);
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
