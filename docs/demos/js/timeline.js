@@ -420,6 +420,7 @@
             };
 
             var $zoomOutButton = $("<button>" + settings.zoomOutButtonText + "</button>");
+            disableZoomOut();
             $zoomOutButton.click(function () {
                 zoom(-settings.zoomIncrement);
                 settings.onZoomOut.call();
@@ -447,13 +448,23 @@
             $this.append($zoomButtons);
         };
 
-        function zoom(zoomAmount) {
+        function zoom(zoomAmount) {            
             if (zoomAmount < 0) {
-                zoomLevel--;
+                if (zoomLevel > 0) {
+                    zoomLevel--;                    
+                } else {
+                    return;
+                };
             } else if (zoomAmount > 0) {
                 zoomLevel++;
             } else if (zoomAmount == 0) {
                 zoomLevel = 0;
+            };
+
+            if (zoomLevel == 0) {
+                disableZoomOut();
+            } else {
+                enableZoomOut();
             };
 
             zoomAmount = Math.abs(zoomAmount);
@@ -466,14 +477,22 @@
                     $thisSection.prev(".event-label").offset({ top: newEventLabelTop });
                 } else if (settings.labelPosition == "right") {
                     $thisSection.next(".event-label").offset({ top: newEventLabelTop });
-                };                
-                
+                };
+
                 return newHeight;
             });
         };
 
         function resetZoom() {
             zoom(0);
+        };
+
+        function disableZoomOut() {
+            $zoomOutButton.prop("disabled", true).addClass("disabled");
+        };
+
+        function enableZoomOut() {
+            $zoomOutButton.prop("disabled", false).removeClass("disabled");
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
