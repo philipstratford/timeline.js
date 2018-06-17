@@ -1,5 +1,5 @@
 .timeline-container * {
-    box-sizing: unset;
+    box-sizing: content-box;
 }
 
 .timeline-node {
@@ -15,7 +15,7 @@
 }
 
 .node-label {
-    color: #000;
+    color: inherit;
 }
 
 a.node-label {
@@ -36,7 +36,12 @@ a.node-label {
 
 .event-label {
     font-size: 20px;
-    color: #000;
+    color: inherit;
+}
+
+.event-label.active {
+    font-size: 1.5em;
+    margin-top: -0.1em;
 }
 
 .zoom-button {
@@ -45,4 +50,9 @@ a.node-label {
     display: block;
     padding: 0;
     font-size: 12px;
+}
+
+.zoom-button.disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
 }
