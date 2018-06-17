@@ -27,6 +27,7 @@
             onZoomReset: function () { },
             resetZoomButton: true,
             scale: 1,
+            selectFirstEventOnLoad: true,
             timelineStyle: "",
             timelineWidth: 1,
             zoomButtons: true,
@@ -73,7 +74,7 @@
             settings.onZoomOut = "";
         };
 
-        //Sort the array of events by descedning date order
+        //Sort the array of events by chronologically
         settings.data = settings.data.sort(function (a, b) {
             var sortOrder;
             if (settings.eventOrder == "desc") {
@@ -313,9 +314,9 @@
                 //Create a line which will fill the gap between the last event added and the next node which will be added in the next year iteration, unless this is the last year in the array
                 if (y < years.length - 1) {
                     $thisNodeLine = $line.clone();
-                    var remainingLineHeight = Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).subtract(1, "years"), "days")); //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
+                    var remainingLineHeight = (Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).subtract(1, "years"), "days"))) * settings.scale; //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
                     $thisNodeLine.data("originalHeight", remainingLineHeight); //Store the line's original height in its data to be used when zooming
-                    $thisNodeLine.height(remainingLineHeight * settings.scale); //Set the line's height to the number of days from the last event added to the start of the year
+                    $thisNodeLine.height(remainingLineHeight); //Set the line's height to the number of days from the last event added to the start of the year
                     $thisYear.append($thisNodeLine);
                 };
 
@@ -358,9 +359,9 @@
                 //Create a line which will fill the gap between the last event added and the next node which will be added in the next year iteration, unless this is the last year in the array
                 if (y < years.length - 1) {
                     $thisNodeLine = $line.clone();
-                    var remainingLineHeight = Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).add(1, "years"), "days")); //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
+                    var remainingLineHeight = (Math.abs(mLastEventEnd.diff(moment(mFirstMomentThisYear).add(1, "years"), "days"))) * settings.scale; //Calculate the number of days from the last rendered event/node to the start of the year which will be rendered in the next year iteration
                     $thisNodeLine.data("originalHeight", remainingLineHeight); //Store the line's original height in its data to be used when zooming
-                    $thisNodeLine.height(remainingLineHeight * settings.scale); //Set the line's height to the number of days from the last event added to the start of the year
+                    $thisNodeLine.height(remainingLineHeight); //Set the line's height to the number of days from the last event added to the start of the year
                     $thisYear.append($thisNodeLine);
                 };
 
@@ -388,9 +389,15 @@
         //Apply further CSS to elements
         $(".main-timeline").css({ "transition": "height .5s", "transition-timing-function": "ease-out" });
         $(".event-label").css({ "transition": "top .5s, opacity .1s", "transition-timing-function": "ease-out" });
-        $(".event-label").eq(0).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function (e) { //Call the function to dim overlapping labels after CSS transitions on event labels have completed
+        $(".event-label").eq(0).on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function (e) { //Create and event handler for css transitions completing and call function to fade overlapping event labels
             fadeOverlappingLabels();
         });
+
+        if (settings.selectFirstEventOnLoad) {
+            $firstNode = $(".event-label:first");
+            $firstNode.addClass("active");
+            settings.onEventLabelClick.call(undefined, $firstNode.data("event"));
+        }
 
         //Set low opacity for overlapping labels
         fadeOverlappingLabels();
@@ -404,16 +411,16 @@
         //Zoom
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         if (settings.zoomButtons) {
-            var $zoomButtons = $("<div></div>").css("top", timelineTargetContainerPadding.top);
-            $zoomButtons.css({ "position": "fixed", "z-index": 2, "top": $this.offset().top + timelineTargetContainerPadding.top });
+            var $zoomButtons = $("<div></div>").css({ "position": "absolute", "z-index": 2, "top": 0 });
 
             if (settings.labelPosition == "left") {
-                $zoomButtons.css("left", $this.offset().left + timelineTargetContainerPadding.left);
+                $zoomButtons.css("left", 0);
             } else if (settings.labelPosition == "right") {
-                $zoomButtons.css("left", $this.offset().left + $this.width() - timelineTargetContainerPadding.right);
+                $zoomButtons.css("right", 0);
             };
 
             var $zoomOutButton = $("<button>" + settings.zoomOutButtonText + "</button>");
+            disableZoomOut();
             $zoomOutButton.click(function () {
                 zoom(-settings.zoomIncrement);
                 settings.onZoomOut.call();
@@ -443,29 +450,49 @@
 
         function zoom(zoomAmount) {
             if (zoomAmount < 0) {
-                zoomLevel--;
-            } else {
+                if (zoomLevel > 0) {
+                    zoomLevel--;
+                } else {
+                    return;
+                };
+            } else if (zoomAmount > 0) {
                 zoomLevel++;
+            } else if (zoomAmount == 0) {
+                zoomLevel = 0;
             };
-            var zoomAmount = Math.abs(zoomAmount);
-            var zoomMultiplier = 1 / (1 - zoomAmount);
+
+            if (zoomLevel == 0) {
+                disableZoomOut();
+            } else {
+                enableZoomOut();
+            };
+
+            zoomAmount = Math.abs(zoomAmount);
+            var zoomMultiplier = (zoomAmount * zoomLevel) + 1
             $(".main-timeline", $this).height(function () {
                 var $thisSection = $(this)
-                var newHeight = $thisSection.data("originalHeight") * Math.pow(zoomMultiplier, zoomLevel);
-
+                var newHeight = $thisSection.data("originalHeight") * zoomMultiplier;
                 var newEventLabelTop = $thisSection.offset().top + newHeight - eventLabelTopOffset; //Move the event labels to the new bottom of the event line, then up by half the height of the label so it's centered against the marker
                 if (settings.labelPosition == "left") {
                     $thisSection.prev(".event-label").offset({ top: newEventLabelTop });
                 } else if (settings.labelPosition == "right") {
                     $thisSection.next(".event-label").offset({ top: newEventLabelTop });
                 };
+
                 return newHeight;
             });
         };
 
         function resetZoom() {
-            zoomLevel = 0;
             zoom(0);
+        };
+
+        function disableZoomOut() {
+            $zoomOutButton.prop("disabled", true).addClass("disabled");
+        };
+
+        function enableZoomOut() {
+            $zoomOutButton.prop("disabled", false).removeClass("disabled");
         };
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -505,6 +532,8 @@
 
         //onEventLabelClick
         $(".event-label", $this).click(function () {
+            $(".event-label", $this).removeClass("active");
+            $(this).addClass("active");
             settings.onEventLabelClick.call(undefined, $(this).data("event"));
         })
 
